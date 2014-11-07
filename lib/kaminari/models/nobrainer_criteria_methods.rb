@@ -10,31 +10,21 @@ module Kaminari
     end
 
     def limit_value #:nodoc:
-      options[:limit]
+      self._limit
     end
 
     def offset_value #:nodoc:
-      options[:skip]
+      self._skip
     end
 
     def total_count #:nodoc:
-      @total_count ||= if embedded?
-        unpage.size
-      else
-        if options[:max_scan] && options[:max_scan] < size
-          options[:max_scan]
-        else
-          size
-        end
-      end
+      # this doesn't work, unscoped does not remove the limit
+      unpage.count
     end
 
     private
     def unpage
-      clone.tap do |crit|
-        crit.options.delete :limit
-        crit.options.delete :skip
-      end
+      NoBrainer::Criteria.new(:klass=>self.klass)
     end
   end
 end
