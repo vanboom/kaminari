@@ -15,6 +15,13 @@ module Kaminari
         # ::DataMapper::Model.send :extend, Kaminari::DataMapperExtension::Model
       end
 
+      begin; require 'nobrainer'; rescue LoadError; end
+      if defined? ::NoBrainer
+        require 'kaminari/models/nobrainer_extension'
+        puts "Configuring NoBrainer for Kaminari"
+        ::NoBrainer::Document.send :include, Kaminari::NoBrainerExtension::Document
+        ::NoBrainer::Criteria.send :include, Kaminari::NoBrainerExtension::Criteria
+      end
       begin; require 'mongoid'; rescue LoadError; end
       if defined? ::Mongoid
         require 'kaminari/models/mongoid_extension'

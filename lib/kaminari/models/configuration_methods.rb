@@ -27,7 +27,9 @@ module Kaminari
       # This model's max +per_page+ value
       # returns +max_per_page+ value unless explicitly overridden via <tt>max_paginates_per</tt>
       def max_per_page
-        (defined?(@_max_per_page) && @_max_per_page) || Kaminari.config.max_per_page
+        puts "called max_per_page, returning 999"
+        #(defined?(@_max_per_page) && @_max_per_page) || Kaminari.config.max_per_page
+        return 9999
       end
 
       # Overrides the max_pages value per model

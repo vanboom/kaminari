@@ -3,13 +3,19 @@ module Kaminari
     # Specify the <tt>per_page</tt> value for the preceding <tt>page</tt> scope
     #   Model.page(3).per(10)
     def per(num)
+      puts self
+      puts self.class.respond_to?(:max_per_page)  #returns TRUE
+      x = self.max_per_page  # triggers method_missing!
+      puts "got x"  # never gets here
       if (n = num.to_i) < 0 || !(/^\d/ =~ num.to_s)
         self
       elsif n.zero?
         limit(n)
-      elsif max_per_page && max_per_page < n
-        limit(max_per_page).offset(offset_value / limit_value * max_per_page)
+      elsif self.max_per_page && self.max_per_page < n
+        puts "one"
+        limit(self.max_per_page).offset(offset_value / limit_value * self.max_per_page)
       else
+        puts "two"
         limit(n).offset(offset_value / limit_value * n)
       end
     end
